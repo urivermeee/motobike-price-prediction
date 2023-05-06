@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kết quả dự đoán</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style type="text/css">
+		body {
+			background-color: #f5f5f5;
+			font-family: Arial, sans-serif;
+			font-size: 16px;
+			margin: 0;
+			padding: 0;
+		}
+		body {
+			background-image: url('https://i.gifer.com/JJI.gif');
+			background-repeat: repeat;
+			background-size: auto;
+		}
+
+		.container {
+			margin: 0 auto;
+			max-width: 800px;
+			padding: 20px;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			color: #ECAB53;
+			font-weight: bold;
+			margin: 0 0 10px;
+		}
+
+		h2 {
+			font-size: 40px;
+		}
+
+		p {
+			color: #FFCC99;
+			font-size: 18px;
+			line-height: 1.6;
+			margin: 0 0 10px;
+		}
+
+		.button {
+			background-color: #4CAF50;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+			font-size: 18px;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			transition: background-color 0.3s ease;
+		}
+
+		.button:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h2>KẾT QUẢ DỰ ĐOÁN</h2>
+		<p>Chiếc xe phù hợp với yêu cầu của bạn có giá dự đoán là: {{ predicted_price }}</p>
+		<a href="/" class="button">Quay trở về trang trước</a>
+	</div>
+</body>
+</html>
+
+
+

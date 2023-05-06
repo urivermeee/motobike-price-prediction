@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Car Price Predictor</title>
+	<style>
+		body {
+			background-image: url('https://i.gifer.com/3AfW.gif');
+			background-repeat: contain;
+			background-size: auto;
+		}
+
+		h2 {
+		font-size: 60px;
+		text-align: center;
+		}
+
+		input[type=text], select {
+			width: 100%;
+			padding: 5px 10px;
+			margin: 10px 0;
+			display: inline-block;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
+
+		input[type=submit] {
+			background-color: #EB7153;
+			color: white;
+			padding: 12px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			float: right;
+		}
+
+		input[type=submit]:hover {
+			background-color: #FCDAD5;
+			font-size: 20px;
+			opacity: 0.8;
+		}
+
+		div {
+				position: absolute;
+  				top: 50%;
+  				left:50%;
+  				transform: translate(-50%, -50%);
+ 				border-radius: 5px;
+				max-width: 500px;
+				border-radius: 5px;
+				background-color: #f2f2f2;
+				padding: 10px;
+				opacity: 0.8;
+				padding: 20px;
+				margin-top: 150px;
+		}
+
+	</style>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			// Xử lý sự kiện khi chọn hãng xe
+			$('#brand').change(function() {
+				var selectedBrand = $(this).val();
+				filterModelsByBrand(selectedBrand);
+			});
+
+			function filterModelsByBrand(brand) {
+				// Lấy danh sách các model xe của hãng được chọnvar models = modelData[brand];
+				var models = modelData[brand];
+				// Xóa tất cả các option hiện tại trong select model
+				$('#model').children().remove();
+
+				// Thêm option mới vào select model dựa trên danh sách các model của hãng được chọn
+				$.each(models, function(index, value) {
+					$('#model').append('<option value="' + value + '">' + value + '</option>');
+				});
+			}
+
+			// Dữ liệu về các model xe theo từng hãng
+			var modelData = {
+				'Aprilia': ['2015 RSV4 R APRC ABS', 'RSV4 RF', 'Dòng khác'],
+				'Bazan': ['Dream', 'Dòng khác'],
+				'Benelli': ['302R', 'BN 302','BN 600i', 'RFS','T15', 'TNT','Dòng khác'],
+				'BMW': ['C400X','R1200', 'R nine T','C400GT', 'S1000RR', 'Dòng khác'],
+				'Brixton': ['BX 150'],
+				'Daelim': ['Cub','RoadWin125', 'Dòng khác'],
+				'Detech': ['Espero', 'Dòng khác'],
+				'Ducati': ['899 panigale','Hypermotard', 'Monster','Scrambler', 'Streetfighter', 'Dòng khác'],
+				'GPX': ['Demon 150GN','Demon 150GR', 'Demon X 125cc','Legend 150S', 'Legend 200', 'Legend Gentleman 200', 'Rock'],
+				'Halim': ['Dòng khác'],
+				'Hãng khác': ['Dòng khác'],
+				'Harley Davidson': ['Sportster', '48','Touring', 'Street', 'Dòng khác'],
+				'Honda': ['67','ADV 150', 'Air Blade','Beat', 'Blade', 'CB','CBR','CD','CG125Fi', 'Chaly', 'Citi', 'Click', 'Cub', 'Dream','Dylan','Forza 300', 'Future', 'Giorno', 'KPR', 'Lead','LX', 'Monkey', 'MSX 125', 'Nova', 'PCX', 'PS', 'Rebel','Scoopy','SCR','SH', 'SH Mode', 'Shadow', 'Sonic', 'Spacy','Vario','Vision', 'Wave', 'Win', 'Winner','Winner X', '@','Dòng khác'],
+				'Hyosung': ['GV', 'Dòng khác'],
+				'Kawasaki': ['Estrella','Kawasaki', 'KSR','Max', 'Ninja', 'Versys', 'Vulcan', 'W175', 'Z1000', 'Z125', 'Z300', 'Z400', 'Z650', 'Z800', 'Z900', 'Dòng khác'],
+				'Keeway': ['Dòng khác'],
+				'Kengo': ['R250'],
+				'KTM': ['390','Duke 200','Duke 250', 'Duke 390', 'RC 200', 'RC 390', 'Dòng khác'],
+				'Kymco': ['Candy Hi', 'Candy S','K-Pipe', 'Like Fi', 'Like MMC', 'Many Macaron Fi', 'People 16 Fi', 'Solona', 'Dòng khác'],
+				'Lambretta': ['Dòng khác'],
+				'MV Agusta': ['Dragster', 'Dòng khác'],
+				'Nioshima': ['Nio Fi 50cc', 'Dòng khác'],
+				'Peugeot': ['Django', '102', 'Dòng khác'],
+				'Piaggio': ['Beverly','ET8', 'Fly','GT', 'GTS', 'Liberty','LX','Medley','Primavera', 'PX', 'Sprint', 'Vespa', 'Vespa S125', 'Zip','Dòng khác'],
+				'RebelUSA': ['CBR', 'CDR','Deluxe', 'Notus', 'Rebell','Dòng khác'],
+				'Regal Raptor': ['Bobber'],
+				'Royal Enfield': ['Interceptor 650','Continetal GT', 'Classic 500'],
+				'Sachs': ['Amici'],
+				'Sanda': ['Dòng khác'],
+				'Suzuki': ['Axelo','Bella', 'Best','Crystal', 'EN', 'Epicuro','FX125','GD','GN', 'GSX', 'GZ', 'Hayate', 'Impulse', 'Intruder','Raider','Revo', 'Royal', 'Sapphire', 'Satria', 'Smash','Sport / Xipo', 'Stinger', 'Viva', 'Xbike', 'Dòng khác'],
+				'SYM': ['Angela','Attila', 'Bonus','Cello', 'Elegant', 'Elite','Elizabeth','Enjoy','EZ', 'Galaxy', 'Husky', 'Joyride', 'Magic', 'Sanda Boss','Shark','Star', 'Symphony', 'Venus', 'Wolf', 'Dòng khác'],
+				'Taya': ['Scoopy','Cub', 'Giorno', 'Hunter City', 'Dòng khác'],
+				'Triumph': ['Street Twin','Street Triple', 'Triumph Bonneville T100', 'Triumph Tiger Explorer XC', 'Dòng khác'],
+				'Victory': ['Vision', 'Dòng khác'],
+				'Visitor': ['Phoenix', 'Bios', 'helios', 'Dòng khác'],
+				'Yamaha': ['Acruzo','Cuxi', 'Exciter','Freego', 'FZ', 'Grande','Janus','Jupiter','Latte', 'Luvias', 'Mio', 'MT', 'NM-X', 'Nouvo','Nozza','Nvx', 'R', 'Sirius', 'Taurus', 'TFX', 'XMAX', 'Yass', 'YAZ', 'YB125', 'Dòng khác']
+			};
+		});
+	</script>
+</head>
+<body>
+
+	<h2>DỰ ĐOÁN GIÁ XE MÁY CŨ</h2>
+
+	<div>
+		<form method="post" action="/predict_price">
+			<label for="brand">Hãng xe:</label>
+			<select id="brand" name="brand">
+				<option value=" "> </option>
+				<option value="Honda">Honda</option>
+				<option value="BMW">BMW</option>
+				<option value="Yamaha">Yamaha</option>
+				<option value="Aprilia">Aprilia</option>
+				<option value="Bazan">Bazan</option>
+				<option value="Benelli">Benelli</option>
+				<option value="Brixton">Brixton</option>
+				<option value="Daelim">Daelim</option>
+				<option value="Detech">Detech</option>
+				<option value="Ducati">Ducati</option>
+				<option value="GPX">GPX</option>
+				<option value="Halim">Halim</option>
+				<option value="Hãng khác">Hãng khác</option>
+				<option value="Hyosung">Hyosung</option>
+				<option value="Kawasaki">Kawasaki</option>
+				<option value="Keeway">Keeway</option>
+				<option value="Kengo">Kengo</option>
+				<option value="KTM">KTM</option>
+				<option value="Kymco">Kymco</option>
+				<option value="Lambretta">Lambretta</option>
+				<option value="MV Agusta">MV Agusta</option>
+				<option value="Nioshima">Nioshima</option>
+				<option value="Peugeot">Peugeot</option>
+				<option value="Piaggio">Piaggio</option>
+				<option value="RebelUSA">RebelUSA</option>
+				<option value="Regal Raptor">Regal Raptor</option>
+				<option value="Royal Enfield">Royal Enfield</option>
+				<option value="Sachs">Nioshima</option>
+				<option value="Sanda">Sanda</option>
+				<option value="Suzuki">Suzuki</option>
+				<option value="SYM">SYM</option>
+				<option value="Taya">Taya</option>
+				<option value="Triumph">Triumph</option>
+				<option value="Victory">Victory</option>
+				<option value="Visitor">Visitor</option>
+			</select>
+
+			<label for="model">Dòng xe:</label>
+			<select id="model" name="model">
+				<option value=" "> </option>
+				<option value="SH">SH</option>
+				<option value="Acruzo">Acruzo</option>
+				<option value="ADV 150">ADV 150</option>
+				<option value="Air Blade">Air Blade</option>
+				<option value="Amici">Amici</option>
+				<option value="Angela">Angela</option>
+				<option value="Attila">Attila</option>
+				<option value="Axelo">Axelo</option>
+				<option value="Beat">Beat</option>
+				<option value="Bella">Bella</option>
+				<option value="Beverly">Beverly</option>
+				<option value="Bios">Bios</option>
+				<option value="Blade">Blade</option>
+				<option value="BN 302">BN 302</option>
+				<option value="BN 600i">BN 600i</option>
+				<option value="Bobber">Bobber</option>
+				<option value="Bonus">Bonus</option>
+				<option value="BX 150">BX 150</option>
+				<option value="C400GT">C400GT</option>
+				<option value="C400X">C400X</option>
+				<option value="Candy Hi">Candy Hi</option>
+				<option value="Candy S">Candy S</option>
+				<option value="CB">CB</option>
+				<option value="CBR">CBR</option>
+				<option value="CD">CD</option>
+				<option value="CDR">CDR</option>
+				<option value="Cello">Cello</option>
+				<option value="CG125Fi">CG125Fi</option>
+				<option value="Chaly">Chaly</option>
+				<option value="Citi">Citi</option>
+				<option value="Classic 500">Classic 500</option>
+				<option value="Click">Click</option>
+				<option value="Continetal GT">Continetal GT</option>
+				<option value="Crystal">Crystal</option>
+				<option value="Cub">Cub</option>
+				<option value="Cuxi">Cuxi</option>
+				<option value="Deluxe">Deluxe</option>
+				<option value="Demon 150GN">Demon 150GN</option>
+				<option value="Demon 150GR">Demon 150GR</option>
+				<option value="Demon X 125cc">Demon X 125cc</option>
+				<option value="Django">Django</option>
+				<option value="Dòng khác">Dòng khác</option>
+				<option value="Dragster">Dragster</option>
+				<option value="Dream">Dream</option>
+				<option value="Duke 200">Duke 200</option>
+				<option value="Duke 250">Duke 250</option>
+				<option value="Duke 390">Duke 390</option>
+				<option value="Dylan">Dylan</option>
+				<option value="Elegant">Elegant</option>
+				<option value="Elite">Elite</option>
+				<option value="Elizabeth">Elizabeth</option>
+				<option value="EN">EN</option>
+				<option value="Enjoy">Enjoy</option>
+				<option value="Epicuro">Epicuro</option>
+				<option value="Espero">Espero</option>
+				<option value="Estrella">Estrella</option>
+				<option value="ET8">ET8</option>
+				<option value="Exciter">Exciter</option>
+				<option value="EZ">EZ</option>
+				<option value="Fly">Fly</option>
+				<option value="Forza 300">Forza 300</option>
+				<option value="Freego">Freego</option>
+				<option value="Future">Future</option>
+				<option value="FX125">FX125</option>
+				<option value="FZ">FZ</option>
+				<option value="Galaxy">Galaxy</option>
+				<option value="GD">GD</option>
+				<option value="Giorno">Giorno</option>
+				<option value="GN">GN</option>
+				<option value="Grande">Grande</option>
+				<option value="GSX">GSX</option>
+				<option value="GT">GSX</option>
+				<option value="GTS">GTS</option>
+				<option value="GV">GV</option>
+				<option value="GZ">GZ</option>
+				<option value="Hayate">Hayate</option>
+				<option value="helios">helios</option>
+				<option value="Hunter City">Hunter City</option>
+				<option value="Husky">Husky</option>
+				<option value="Hypermotard">Hypermotard</option>
+				<option value="Impulse">Impulse</option>
+				<option value="Interceptor 650">Interceptor 650</option>
+				<option value="Intruder">Intruder</option>
+				<option value="Janus">Janus</option>
+				<option value="Joyride">Joyride</option>
+				<option value="Jupiter">Jupiter</option>
+				<option value="Kawasaki">Kawasaki</option>
+				<option value="K-Pipe">K-Pipe</option>
+				<option value="KPR">KPR</option>
+				<option value="Latte">Latte</option>
+				<option value="Lead">Lead</option>
+				<option value="Legend 150S">Legend 150S</option>
+				<option value="Legend 200">Legend 200</option>
+				<option value="Legend Gentleman 200">Legend Gentleman 200</option>
+				<option value="Liberty">Liberty</option>
+				<option value="Like Fi">Like Fi</option>
+				<option value="Like MMC">Like MMC</option>
+				<option value="Luvias">Luvias</option>
+				<option value="LX">LX</option>
+				<option value="Magic">Magic</option>
+				<option value="Many Macaron Fi">Many Macaron Fi</option>
+				<option value="Max">Max</option>
+				<option value="Medley">Medley</option>
+				<option value="Mio">Mio</option>
+				<option value="Monkey">Monkey</option>
+				<option value="Monster">Monster</option>
+				<option value="MSX 125">MSX 125</option>
+				<option value="MT">MT</option>
+				<option value="Ninja">Ninja</option>
+				<option value="Nio Fi 50cc">Nio Fi 50cc</option>
+				<option value="NM-X">NM-X</option>
+				<option value="Notus">Notus</option>
+				<option value="Nouvo">Nouvo</option>
+				<option value="Nova">Nova</option>
+				<option value="Nozza">Nozza</option>
+				<option value="Nvx">Nvx</option>
+				<option value="PCX">PCX</option>
+				<option value="People 16 Fi">People 16 Fi</option>
+				<option value="Phoenix">Phoenix</option>
+				<option value="Primavera">Primavera</option>
+				<option value="PS">PS</option>
+				<option value="PX">PX</option>
+				<option value="R">R</option>
+				<option value="R nine T">R nine T</option>
+				<option value="R1200">R1200</option>
+				<option value="R250">R250</option>
+				<option value="Raider">Raider</option>
+				<option value="RC 200">RC 200</option>
+				<option value="RC 390">RC 390</option>
+				<option value="Rebel">Rebel</option>
+				<option value="Revo">Revo</option>
+				<option value="RFS">RFS</option>
+				<option value="RoadWin125">RoadWin125</option>
+				<option value="Rock">Rock</option>
+				<option value="Royal">Royal</option>
+				<option value="RSV4 RF">RSV4 RF</option>
+				<option value="S1000RR">S1000RR</option>
+				<option value="Sanda Boss">Sanda Boss</option>
+				<option value="Sapphire">Sapphire</option>
+				<option value="Satria">Satria</option>
+				<option value="Scoopy">Scoopy</option>
+				<option value="SCR">SCR</option>
+				<option value="Scrambler">Scrambler</option>
+				<option value="SH Mode">SH Mode</option>
+				<option value="Shadow">Shadow</option>
+				<option value="Shark">Shark</option>
+				<option value="Sirius">Sirius</option>
+				<option value="Smash">Smash</option>
+				<option value="Solona">Solona</option>
+				<option value="Sonic">Sonic</option>
+				<option value="Spacy">Spacy</option>
+				<option value="Sport / Xipo">Sport / Xipo</option>
+				<option value="Sportster">Sportster</option>
+				<option value="Sprint">Sprint</option>
+				<option value="Star">Star</option>
+				<option value="Stinger">Stinger</option>
+				<option value="Street">Street</option>
+				<option value="Street Triple">Street Triple</option>
+				<option value="Street Twin">Street Twin</option>
+				<option value="Streetfighter">Streetfighter</option>
+				<option value="Symphony">Symphony</option>
+				<option value="T15">T15</option>
+				<option value="Taurus">Taurus</option>
+				<option value="TFX">TFX</option>
+				<option value="TNT">TNT</option>
+				<option value="Touring">Touring</option>
+				<option value="Triumph Bonneville T100">Triumph Bonneville T100</option>
+				<option value="Triumph Tiger Explorer XC">Triumph Tiger Explorer XC</option>
+				<option value="Vario">Vario</option>
+				<option value="Venus">Venus</option>
+				<option value="Versys">Versys</option>
+				<option value="Vespa">Vespa</option>
+				<option value="Vespa S125">Vespa S125</option>
+				<option value="Vision">Vision</option>
+				<option value="Viva">Viva</option>
+				<option value="Vulcan">Vulcan</option>
+				<option value="W175">W175</option>
+				<option value="Wave">Wave</option>
+				<option value="Win">Win</option>
+				<option value="Winner">Winner</option>
+				<option value="Winner X">Winner X</option>
+				<option value="Wolf">Wolf</option>
+				<option value="Xbike">Xbike</option>
+				<option value="XMAX">XMAX</option>
+				<option value="Yass">Yass</option>
+				<option value="YAZ">YAZ</option>
+				<option value="YB125">YB125</option>
+				<option value="Z1000">Z1000</option>
+				<option value="Z125">Z125</option>
+				<option value="Z300">Z300</option>
+				<option value="Z400">Z400</option>
+				<option value="Z650">Z650</option>
+				<option value="Z800">Z800</option>
+				<option value="Z900">Z900</option>
+				<option value="@">@</option>
+				<option value="102">102</option>
+				<option value="2015 RSV4 R APRC ABS">2015 RSV4 R APRC ABS</option>
+				<option value="302R">302R</option>
+				<option value="390">390</option>
+				<option value="48">48</option>
+				<option value="67">67</option>
+				<option value="899 panigale">899 panigale</option>
+			</select>
+
+			<label for="reg_date">Ngày đăng ký:</label>
+			<input type="text" id="reg_date" name="reg_date" placeholder="yyyy-mm-dd">
+
+			<label for="km">Số KM đã đi:</label>
+			<input type="text" id="km" name="km" placeholder="Điền số Kilometer mà bạn yêu cầu">
+
+			<label for="condition">Điều kiện:</label>
+			<select id="condition" name="condition">
+				<option value="Đã sử dụng">Used</option>
+			</select>
+
+			<label for="capacity">Dung tích:</label>
+			<select id="capacity" name="capacity">
+				<option value=" "> </option>
+				<option value="Dưới 50">Dưới 50</option>
+				<option value="50 - 100">50 - 100</option>
+				<option value="100 - 175">100 - 175</option>
+				<option value="Trên 175">Trên 175</option>
+			</select>
+
+			<label for="type">Loại xe:</label>
+			<select id="type" name="type">
+				<option value=" "> </option>
+				<option value="Tay côn/Moto">Tay côn/Moto</option>
+				<option value="Tay ga">Tay ga</option>
+                <option value="Xe số">Xe số</option>
+				<option value=" "> </option>
+            </select>
+
+            <label for="location">Địa chỉ người bán:</label>
+			<select id="location" name="location">
+				<option value="An Giang">An Giang</option>
+				<option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
+				<option value="Bắc Giang">Bắc Giang</option>
+				<option value="Bạc Liêu">Bạc Liêu</option>
+				<option value="Bắc Ninh">Bắc Ninh</option>
+				<option value="Bến Tre">Bến Tre</option>
+				<option value="Bình Định">Bình Định</option>
+				<option value="Bình Dương">Bình Dương</option>
+				<option value="Bình Phước">Bình Phước</option>
+				<option value="Bình Thuận">Bình Thuận</option>
+				<option value="Cà Mau">Cà Mau</option>
+				<option value="Cần Thơ">Cần Thơ</option>
+				<option value="Đà Nẵng">Đà Nẵng</option>
+				<option value="Đắk Lắk">Đắk Lắk</option>
+				<option value="Đồng Nai">Đồng Nai</option>
+				<option value="Đồng Tháp">Đồng Tháp</option>
+				<option value="Gia Lai">Gia Lai</option>
+				<option value="Hà Nam">Hà Nam</option>
+				<option value="Hà Nội">Hà Nội</option>
+				<option value="Hải Dương">Hải Dương</option>
+				<option value="Hậu Giang">Hậu Giang</option>
+				<option value="Hòa Bình">Hòa Bình</option>
+				<option value="Hưng Yên">Hưng Yên</option>
+				<option value="Khánh Hòa">Khánh Hòa</option>
+				<option value="Kiên Giang">Kiên Giang</option>
+				<option value="Kon Tum">Kon Tum</option>
+				<option value="Lâm Đồng">Lâm Đồng</option>
+				<option value="Long An">Long An</option>
+				<option value="Nam Định">Nam Định</option>
+				<option value="Nghệ An">Nghệ An</option>
+				<option value="Ninh Bình">Ninh Bình</option>
+				<option value="Ninh Thuận">Ninh Thuận</option>
+				<option value="Phú Thọ">Phú Thọ</option>
+				<option value="Phú Yên">Phú Yên</option>
+				<option value="Quảng Bình">Quảng Bình</option>
+				<option value="Quảng Nam">Quảng Nam</option>
+				<option value="Quảng Ngãi">Quảng Ngãi</option>
+				<option value="Quảng Ninh">Quảng Ninh</option>
+				<option value="Sóc Trăng">Sóc Trăng</option>
+				<option value="Tây Ninh">Tây Ninh</option>
+				<option value="Thái Bình">Thái Bình</option>
+				<option value="Thái Nguyên">Thái Nguyên</option>
+				<option value="Thanh Hóa">Thanh Hóa</option>
+				<option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
+				<option value="Tiền Giang">Tiền Giang</option>
+				<option value="Tp Hồ Chí Minh">Tp Hồ Chí Minh</option>
+				<option value="Trà Vinh">Trà Vinh</option>
+				<option value="Vĩnh Long">Vĩnh Long</option>
+				<option value="Vĩnh Phúc">Vĩnh Phúc</option>
+				<option value="Yên Bái">Yên Bái</option>
+            </select>
+			<input type="submit" value="Dự đoán giá">
+        </form>
+    </div>
+
+</body>
+</html>
